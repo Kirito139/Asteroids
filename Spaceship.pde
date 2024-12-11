@@ -1,8 +1,8 @@
 class Spaceship extends Floater {
-  public Spaceship(int x, int y) {
+  public Spaceship(int startX, int startY) {
     colo = color(0, 255, 255);
-    centerX = x; // width / 2;
-    centerY = y; // height / 2;
+    centerX = startX; // width / 2;
+    centerY = startY; // height / 2;
     vx = 0;
     vy = 0;
     heading = 0;
