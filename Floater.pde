@@ -25,18 +25,10 @@ class Floater {
     centerY += vy;
 
     // wrap around screen
-    if (centerX > width) {
-      centerX = 0;
-    } else if (centerX < 0) {
-      centerX = width;
-    } if (centerY > height) {
-      centerY = 0;
-    }
-
-    else if (centerY < 0)
-    {
-      centerY = height;
-    }
+    if (centerX > width) centerX = 0;
+    else if (centerX < 0) centerX = width;
+    if (centerY > height) centerY = 0;
+    else if (centerY < 0) centerY = height;
   }
   public void show () { // Draws the floater at the current position
     fill(colo);
