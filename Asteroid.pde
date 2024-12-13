@@ -14,42 +14,42 @@ class Asteroid extends Floater {
     vertices = 11;
     verticesX = new int[vertices];
     verticesY = new int[vertices];
-    verticesX[0] = -8;
-    verticesY[0] = -6;
+    verticesX[0] = -12;
+    verticesY[0] = -9;
     
-    verticesX[1] = -4;
-    verticesY[1] = -8;
+    verticesX[1] = -6;
+    verticesY[1] = -12;
 
-    verticesX[2] = 5;
-    verticesY[2] = -6;
+    verticesX[2] = 8;
+    verticesY[2] = -9;
 
-    verticesX[3] = 8;
-    verticesY[3] = 2;
+    verticesX[3] = 12;
+    verticesY[3] = 3;
 
-    verticesX[4] = 3;
-    verticesY[4] = 5;
+    verticesX[4] = 4;
+    verticesY[4] = 7;
 
-    verticesX[5] = 2;
-    verticesY[5] = 8;
+    verticesX[5] = 3;
+    verticesY[5] = 12;
 
-    verticesX[6] = -2;
-    verticesY[6] = 7;
+    verticesX[6] = -3;
+    verticesY[6] = 11;
 
-    verticesX[7] = -5;
-    verticesY[7] = 7;
+    verticesX[7] = -8;
+    verticesY[7] = 11;
 
-    verticesX[8] = -7;
-    verticesY[8] = 8;
+    verticesX[8] = -11;
+    verticesY[8] = 12;
 
-    verticesX[9] = -8;
-    verticesY[9] = -1;
+    verticesX[9] = -12;
+    verticesY[9] = -2;
 
-    verticesX[10] = -7;
-    verticesY[10] = -3;
+    verticesX[10] = -11;
+    verticesY[10] = -5;
   }
   public boolean isNearShip(Spaceship ship) {
     return dist((float)centerX, (float)centerY, (float)ship.centerX,
-    (float)ship.centerY) < 22;
+    (float)ship.centerY) < 28;
   }
   public void show () { // Draws the floater at the current position
     noFill();

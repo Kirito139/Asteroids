@@ -1,18 +1,23 @@
-float x, y;
+float cursorX, cursorY;
 class AimCursor {
-  public AimCursor() {
-    x = width/2;
-    y = height/2;
+  AimCursor() {
+    cursorX = width/2;
+    cursorY = height/2;
   }
-  public void draw() {
+  public void show() {
     stroke(255, 0, 0);
     strokeWeight(0.8);
-    ellipse(aimX, aimY, 16, 16);
-    line(aimX, aimY + 8, aimX, aimY + 5);
-    line(aimX, aimY - 8, aimX, aimY - 5);
-    line(aimX + 8, aimY, aimX + 5, aimY);
-    line(aimX - 8, aimY, aimX - 5, aimY);
+    ellipse(cursorX, cursorY, 16, 16);
+    line(cursorX, cursorY + 8, cursorX, cursorY + 5);
+    line(cursorX, cursorY - 8, cursorX, cursorY - 5);
+    line(cursorX + 8, cursorY, cursorX + 5, cursorY);
+    line(cursorX - 8, cursorY, cursorX - 5, cursorY);
   }
-  public void changeX(float change) { x += change; }
-  public void changeY(float change) { y += change; }
+  // TODO: latch onto asteroids
+  public void up() { if ((cursorY - 5) > 0) cursorY -= 15; }
+  public void down() { if ((cursorY + 5) < height) cursorY += 15; }
+  public void left() { if ((cursorX - 5) > 0) cursorX -= 15; }
+  public void right() { if ((cursorX + 5) < width) cursorX += 15; }
+  public float getX() { return cursorX; }
+  public float getY() { return cursorY; }
 }
