@@ -1,7 +1,7 @@
 float cursorX, cursorY;
 class AimCursor {
   AimCursor() {
-    cursorX = width/2;
+    cursorX = width/2 + 30;
     cursorY = height/2;
   }
   public void show() {
@@ -18,6 +18,7 @@ class AimCursor {
   public void down() { if ((cursorY + 5) < height) cursorY += 15; }
   public void left() { if ((cursorX - 5) > 0) cursorX -= 15; }
   public void right() { if ((cursorX + 5) < width) cursorX += 15; }
+
   public float getX() { return cursorX; }
   public float getY() { return cursorY; }
 }

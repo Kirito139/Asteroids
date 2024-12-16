@@ -1,17 +1,20 @@
-Spaceship ship;
-AimCursor cursor;
+ArrayList<Spaceship> ships = new ArrayList<Spaceship>();
+AimCursor aimcursor;
 Star[] stars = new Star[100];
-ArrayList <Asteroid> asteroids = new ArrayList <Asteroid>();
-ArrayList <Bullet> bullets = new ArrayList <Bullet>();
+ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
+ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 boolean wPressed, sPressed, aPressed, dPressed, spacePressed, upPressed,
 downPressed, leftPressed, rightPressed;
-float aimX, aimY, range, leadTime, leadX, leadY;
+float aimX, aimY; // , range, leadTime, leadX, leadY;
 double shipX, shipY;
-int cursorVX, cursorVY;
+int cursorVX, cursorVY, asteroidTimer;
+Spaceship ship;
 
 public void setup() {
   size(880, 660);
   frameRate(30);
+  ships.add(new Spaceship(width / 2, height / 2));
+  ship = ships.get(0);
   aimX = width / 2;
   aimY = height / 2;
   cursorVX = cursorVY = 0;
@@ -19,11 +22,17 @@ public void setup() {
   for (int i = 0; i < Math.random() * 4 + 8; i++) asteroids.add(new Asteroid());
   wPressed = sPressed = aPressed = dPressed = false;
   ship = new Spaceship(width / 2, height / 2);
-  cursor = new AimCursor();
+  aimcursor = new AimCursor();
+  asteroidTimer = 0;
 }
 
 public void draw() {
   background(0);
+
+  if (asteroidTimer > 300) {
+    asteroids.add(new Asteroid());
+    asteroidTimer = 0;
+  }
 
   for (int i = 0; i < stars.length; i++) stars[i].show();
   for (int i = 0; i < asteroids.size(); i++) {
@@ -32,7 +41,9 @@ public void draw() {
 
     if (asteroids.get(i).isNearShip(ship)) {
       asteroids.remove(i);
-      asteroids.add(new Asteroid());
+      ships.remove(0);
+      int game_ender = 1/0;
+      // asteroids.add(new Asteroid());
     }
   }
   keyCheck();
@@ -42,20 +53,20 @@ public void draw() {
   shipY = ship.getY();
 
   // controls how fast the average velocity changes
-  range = dist((float)shipX, (float)shipY, aimX, aimY);
-  leadTime = range / bulletSpeed; // how far to lead by
-  leadX = cursor.getX() + cursorVX * leadTime;
-  leadY = cursor.getY() + cursorVY * leadTime;
+  // range = dist((float)shipX, (float)shipY, aimX, aimY);
+  // leadTime = range / bulletSpeed; // how far to lead by
+  // leadX = cursor.getX() + cursorVX * leadTime;
+  // leadY = cursor.getY() + cursorVY * leadTime;
 
   // calculate aim point coords
-  aimX += (leadX - cursor.getX());
-  aimY += (leadY - cursor.getY());
+  // aimX += (leadX - cursor.getX());
+  // aimY += (leadY - cursor.getY());
 
   framesSinceLastShot++;
 
   if (spacePressed && framesSinceLastShot >= reloadTime) {
-    float angle = atan2(aimY - (float)shipY, aimX - (float)shipX);
-    Bullet newBullet = new Bullet(ship, angle);
+    // float angle = atan2(aimY - (float)shipY, aimX - (float)shipX);
+    Bullet newBullet = new Bullet(ship, aimcursor);
     bullets.add(newBullet);
     framesSinceLastShot = 0;
   } 
@@ -64,12 +75,23 @@ public void draw() {
     Bullet p = bullets.get(i);
     p.move();
     p.show();
+    // Check for collision with asteroids
+    for (int j = asteroids.size() - 1; j >= 0; j--) {
+      Asteroid a = asteroids.get(j);
+      if (dist(p.x, p.y, (float)a.centerX, (float)a.centerY) < 18) {
+        // Remove the asteroid and the bullet
+        asteroids.remove(j);
+        bullets.remove(i);
+        break;
+      }
+    }
 
     // TODO: fade bullets each frame, fade level corresponds with damage.
     if (p.isOffScreen()) bullets.remove(i);
 
   }
-  cursor.show();
+  aimcursor.show();
+  asteroidTimer++;
 }
 
 public void keyCheck() {
@@ -77,10 +99,10 @@ public void keyCheck() {
   if (sPressed) ship.accelerate(-0.3);
   if (aPressed) ship.turn(-16);
   if (dPressed) ship.turn(16);
-  if (upPressed) cursor.up();
-  if (downPressed) cursor.down();
-  if (leftPressed) cursor.left();
-  if (rightPressed) cursor.right();
+  if (upPressed) aimcursor.up();
+  if (downPressed) aimcursor.down();
+  if (leftPressed) aimcursor.left();
+  if (rightPressed) aimcursor.right();
 }
 
 public void keyPressed() {
@@ -103,23 +125,21 @@ public void keyPressed() {
     }
   }
   
-  if (key == CODED) {
-    if (keyCode == UP) {
-      upPressed = true;
-      cursorVY -= 15;
-    }
-    if (keyCode == DOWN) {
-      downPressed = true;
-      cursorVY += 15;
-    }
-    if (keyCode == LEFT) {
-      leftPressed = true;
-      cursorVX -= 15;
-    }
-    if (keyCode == RIGHT) {
-      rightPressed = true;
-      cursorVX += 15;
-    }
+  if (key == 'k') {
+    upPressed = true;
+    cursorVY -= 15;
+  }
+  if (key == 'j') {
+    downPressed = true;
+    cursorVY += 15;
+  }
+  if (key == 'h') {
+    leftPressed = true;
+    cursorVX -= 15;
+  }
+  if (key == 'l') {
+    rightPressed = true;
+    cursorVX += 15;
   }
 }
 
@@ -129,23 +149,20 @@ public void keyReleased() {
   if (key == 'a') aPressed = false;
   if (key == 'd') dPressed = false;
   if (key == ' ') spacePressed = false;
-  if (key == CODED) {
-    if (keyCode == UP) {
-      upPressed = false;
-      cursorVY += 15;
-    }
-    if (keyCode == DOWN) {
-      downPressed = false;
-      cursorVY -= 15;
-    }
-    if (keyCode == LEFT) {
-      leftPressed = false;
-      cursorVX += 15;
-    }
-    if (keyCode == RIGHT) {
-      rightPressed = false;
-      cursorVX -= 15;
-    }
-
+  if (key == 'k') {
+    upPressed = false;
+    cursorVY += 15;
+  }
+  if (key == 'j') {
+    downPressed = false;
+    cursorVY -= 15;
+  }
+  if (key == 'h') {
+    leftPressed = false;
+    cursorVX += 15;
+  }
+  if (key == 'l') {
+    rightPressed = false;
+    cursorVX -= 15;
   }
 }

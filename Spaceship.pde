@@ -34,9 +34,7 @@ class Spaceship extends Floater {
 
     // draw the polygon
     beginShape();
-    for (int nI = 0; nI < vertices; nI++) {
-      vertex(verticesX[nI], verticesY[nI]);
-    }
+    for (int nI = 0; nI < vertices; nI++) vertex(verticesX[nI], verticesY[nI]);
     endShape(CLOSE);
     // TODO: draw rocket plumes
 
