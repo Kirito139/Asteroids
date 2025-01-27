@@ -4,7 +4,7 @@ Star[] stars = new Star[100];
 ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 boolean wPressed, sPressed, aPressed, dPressed, spacePressed, upPressed,
-downPressed, leftPressed, rightPressed;
+downPressed, leftPressed, rightPressed, game_over;
 float aimX, aimY; // , range, leadTime, leadX, leadY;
 double shipX, shipY;
 int cursorVX, cursorVY, asteroidTimer;
@@ -42,7 +42,8 @@ public void draw() {
     if (asteroids.get(i).isNearShip(ship)) {
       // asteroids.remove(i);
       ships.remove(0);
-      int game_ender = 1/0;
+      game_over = true;
+      noLoop();
       // asteroids.add(new Asteroid());
     }
   }
