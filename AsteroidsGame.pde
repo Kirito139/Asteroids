@@ -40,7 +40,7 @@ public void draw() {
     asteroids.get(i).show();
 
     if (asteroids.get(i).isNearShip(ship)) {
-      asteroids.remove(i);
+      // asteroids.remove(i);
       ships.remove(0);
       int game_ender = 1/0;
       // asteroids.add(new Asteroid());

@@ -54,6 +54,7 @@ class Asteroid extends Floater {
   public void show () { // Draws the floater at the current position
     noFill();
     stroke(colo);
+    strokeWeight(1);
 
     // translate the (x,y) center of the ship to the correct position
     translate((float)centerX, (float)centerY);
